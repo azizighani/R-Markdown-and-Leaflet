@@ -1,0 +1,134 @@
+---
+title: "R Markdown and Leaflet"
+author: "Muhamad Noorazizi"
+date: "12/23/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+```{r, echo=FALSE, message=FALSE}
+library(leaflet)
+library(sp)
+library(sf)
+
+```
+
+# National Parks in Malaysia
+
+```{r data, echo=FALSE} 
+
+set.seed(9397) 
+
+name<-c("Bako National Park","Mulu Cave National Park","Tunku Abdul Rahman National Park","Kinabalu National Park","Taman Negara National Park","Gunung Gading National Park","Niah National Park","Similajau National Park","Lambir Hills National Park","Endau-Rompin National Park") 
+
+lat<-c(1.71607,4.08419,5.97579,6.20040,4.63886,1.69260,3.80119,3.34904,4.19844,2.47017) 
+
+lng<-c(110.46570,114.90061,116.00010,116.64371,102.40718,109.84973,113.78455,113.15807,114.04300,103.26963) 
+
+
+contents1 <- paste(sep = "<br/>",
+                   paste0("<img src='http://www.tamannegara.asia/blog/wp-content/uploads/2015/06/10486828_m.jpg", "' />"),
+                   paste0("<b>Name: </b>", "Bako National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://www.bakonationalpark.com/", "'>Link</a>"))
+
+contents2 <- paste(sep = "<br/>",
+                   paste0("<img src='http://www.tamannegara.asia/blog/wp-content/uploads/2015/06/shutterstock_49433740-1024x681.jpg", "' />"),
+                   paste0("<b>Name: </b>", "Mulu Cave National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://mulupark.com/", "'>Link</a>"))
+
+contents3 <- paste(sep = "<br/>",
+                   paste0("<img src='http://www.tamannegara.asia/blog/wp-content/uploads/2015/06/shutterstock_154921274-1024x683.jpg", "' />"),
+                   paste0("<b>Name: </b>", "Tunku Abdul Rahman National Park"),
+                   paste0("<b>Place: </b>", "Sabah, Malaysia"),
+                   paste0("<a href='http://www.sabahparks.org.my/index.php/the-parks/tunku-abdul-rahman-park", "'>Link</a>"))
+
+
+contents4 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.touropia.com/gfx/d/destinations-in-east-malaysia/kinabalu_national_park.jpg?v=b69375137cd231d46bfc95ed4fd4eb8f", "' />"),
+                   paste0("<b>Name: </b>", "Kinabalu National Park"),
+                   paste0("<b>Place: </b>", "Sabah, Malaysia"),
+                   paste0("<a href='https://www.mountkinabalu.com/", "'>Link</a>"))
+
+contents5 <- paste(sep = "<br/>",
+                   paste0("<img src='http://www.tamannegara.asia/blog/wp-content/uploads/2015/06/Taman-Negara1.jpg", "' />"),
+                   paste0("<b>Name: </b>", "Taman Negara National Park"),
+                   paste0("<b>Place: </b>", "Pahang, Malaysia"),
+                   paste0("<a href='https://en.wikipedia.org/wiki/Taman_Negara", "'>Link</a>"))
+
+
+contents6 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.touropia.com/gfx/d/tourist-attractions-in-malaysia/gunung_gading_national_park.jpg?v=1", "' />"),
+                   paste0("<b>Name: </b>", "Gunung Gading National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://sarawaktourism.com/attraction/gunung-gading-national-park/", "'>Link</a>"))
+
+contents7 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.touropia.com/gfx/d/national-parks-in-malaysia/niah_national_park.jpg?v=7d58ec914f2157ec8c8d6e45e13b6871", "' />"),
+                   paste0("<b>Name: </b>", "Niah National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://sarawakforestry.com/parks-and-reserves/niah-national-park/", "'>Link</a>"))
+
+contents8 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.borneotravelnetwork.com/images/tourpackages/MYY07/2.jpg", "' />"),
+                   paste0("<b>Name: </b>", "Similajau National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://sarawaktourism.com/attraction/similajau-national-park/", "'>Link</a>"))
+
+contents9 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.touropia.com/gfx/d/national-parks-in-malaysia/lambir_hills_national_park.jpg?v=a8ebb1b80adca01351e463e8ea024533", "' />"),
+                   paste0("<b>Name: </b>", "Lambir Hills National Park"),
+                   paste0("<b>Place: </b>", "Sarawak, Malaysia"),
+                   paste0("<a href='https://sarawakforestry.com/lambir-hills-national-park/", "'>Link</a>"))
+
+contents10 <- paste(sep = "<br/>",
+                   paste0("<img src='https://www.touropia.com/gfx/d/national-parks-in-malaysia/endau_rompin_national_park.jpg?v=1", "' />"),
+                   paste0("<b>Name: </b>", "Endau-Rompin National Park"),
+                   paste0("<b>Place: </b>", "Johor, Malaysia"),
+                   paste0("<a href='https://www.johornationalparks.gov.my/v3/endau-rompin-selai/", "'>Link</a>"))
+
+allcontents <-c(contents1,contents2,contents3,contents4,contents5,contents6,contents7,contents8,contents9,contents10)
+
+data<-data.frame(name,lat,lng, allcontents) 
+
+``` 
+
+
+```{r}
+
+```
+```{r Icon, echo=FALSE}
+greenLeafIcon <- makeIcon(
+  iconUrl = "http://leafletjs.com/examples/custom-icons/leaf-green.png",
+  iconWidth = 38, iconHeight = 95,
+  iconAnchorX = 22, iconAnchorY = 94,
+  shadowUrl = "http://leafletjs.com/examples/custom-icons/leaf-shadow.png",
+  shadowWidth = 50, shadowHeight = 64,
+  shadowAnchorX = 4, shadowAnchorY = 62
+)
+```
+
+```{r map, echo=FALSE} 
+
+df<-data.frame(lat, lng) 
+
+df %>% 
+
+  leaflet()%>% 
+
+  addTiles()%>% 
+  addMarkers(~lng, ~lat, popup = ~allcontents, label = ~as.character(name), icon = greenLeafIcon) 
+```
+
+###### _Click the Leaf for more info_
+
+
+
+Some of the images are taken from these websites;
+
+1) https://www.tamannegara.asia/
+2) https://www.touropia.com/national-parks-in-malaysia/
+3) https://www.borneotravelnetwork.com/
